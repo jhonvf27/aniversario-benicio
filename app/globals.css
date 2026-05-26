@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cor-rosa: #FF6B9D;
+  --cor-azul: #4DAEE5;
+  --cor-amarelo: #FFD93D;
+  --cor-lilas: #C084FC;
+  --cor-verde: #4ADE80;
+  --cor-fundo: #FFF9F5;
+  --cor-texto: #2D1B69;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--font-nunito), 'Nunito', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   ANIMAÇÕES GLOBAIS
+   ============================================ */
+
+@keyframes float-up {
+  0% {
+    transform: translateY(110vh) rotate(0deg);
+    opacity: 0;
+  }
+  5% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% {
+    transform: translateY(-10vh) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.4; transform: scale(0.7) rotate(15deg); }
+}
+
+@keyframes spin-rainbow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    box-shadow:
+      0 0 0 4px rgba(255, 107, 157, 0.6),
+      0 0 20px rgba(255, 107, 157, 0.4);
+  }
+  33% {
+    box-shadow:
+      0 0 0 4px rgba(77, 174, 229, 0.6),
+      0 0 20px rgba(77, 174, 229, 0.4);
+  }
+  66% {
+    box-shadow:
+      0 0 0 4px rgba(192, 132, 252, 0.6),
+      0 0 20px rgba(192, 132, 252, 0.4);
+  }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ============================================
+   CLASSES UTILITÁRIAS PERSONALIZADAS
+   ============================================ */
+
+.font-bubblegum {
+  font-family: var(--font-bubblegum), 'Bubblegum Sans', cursive;
+}
+
+.font-nunito {
+  font-family: var(--font-nunito), 'Nunito', sans-serif;
+}
+
+/* Gradiente de texto animado */
+.text-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--cor-rosa),
+    var(--cor-lilas),
+    var(--cor-azul),
+    var(--cor-amarelo),
+    var(--cor-rosa)
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Borda arco-íris giratória */
+.rainbow-border-wrapper {
+  position: relative;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.rainbow-border-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #FF6B9D,
+    #FFD93D,
+    #4ADE80,
+    #4DAEE5,
+    #C084FC,
+    #FF6B9D
+  );
+  animation: spin-rainbow 3s linear infinite;
+  z-index: 0;
+}
+
+.rainbow-border-inner {
+  position: relative;
+  z-index: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: white;
+  padding: 3px;
+}
+
+/* Fundo com bolinhas flutuantes (CSS puro) */
+.dots-bg {
+  position: relative;
+}
+
+.dots-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle 8px at 10% 15%, rgba(255,107,157,0.25) 0%, transparent 100%),
+    radial-gradient(circle 6px at 25% 45%, rgba(77,174,229,0.2) 0%, transparent 100%),
+    radial-gradient(circle 10px at 60% 20%, rgba(255,217,61,0.2) 0%, transparent 100%),
+    radial-gradient(circle 7px at 80% 60%, rgba(192,132,252,0.2) 0%, transparent 100%),
+    radial-gradient(circle 5px at 45% 80%, rgba(74,222,128,0.2) 0%, transparent 100%),
+    radial-gradient(circle 9px at 90% 30%, rgba(255,107,157,0.15) 0%, transparent 100%),
+    radial-gradient(circle 6px at 15% 75%, rgba(77,174,229,0.15) 0%, transparent 100%),
+    radial-gradient(circle 8px at 70% 90%, rgba(255,217,61,0.15) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Cards com glassmorphism suave */
+.card-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cor-fundo);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cor-rosa);
+  border-radius: 4px;
+}
+
+/* Foco acessível */
+:focus-visible {
+  outline: 3px solid var(--cor-rosa);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+textarea {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--cor-rosa);
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+}
