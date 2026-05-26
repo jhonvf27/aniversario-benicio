@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -14,7 +14,7 @@ const ADMIN_PWD =
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_ADMIN_PASSWORD) ||
   'benicio2026'
 
-type Tab = 'confirmacoes' | 'presentes'
+type Tab = 'confirmacoes' | 'presentes' | 'fotos'
 
 interface RSVP {
   id: string
@@ -33,6 +33,13 @@ interface Presente {
   preco_estimado: string | null
   reservado_por: string | null
   reservado_em: string | null
+}
+
+interface FotoPendente {
+  id: string
+  nome_autor: string
+  url: string
+  created_at: string
 }
 
 function buildWaMsg(nome: string) {
@@ -125,18 +132,36 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<Tab>('confirmacoes')
   const [rsvps, setRsvps] = useState<RSVP[]>([])
   const [presentes, setPresentes] = useState<Presente[]>([])
+  const [fotosPendentes, setFotosPendentes] = useState<FotoPendente[]>([])
   const [loading, setLoading] = useState(true)
+  const [actionLoading, setActionLoading] = useState<string | null>(null)
 
   const loadData = useCallback(async () => {
     setLoading(true)
-    const [{ data: r }, { data: p }] = await Promise.all([
+    const [{ data: r }, { data: p }, { data: f }] = await Promise.all([
       supabase.from('rsvp').select('*').order('created_at', { ascending: false }),
       supabase.from('presentes').select('id,nome,preco_estimado,reservado_por,reservado_em').order('nome'),
+      supabase.from('fotos').select('id,nome_autor,url,created_at').eq('aprovada', false).order('created_at', { ascending: true }),
     ])
     setRsvps((r as RSVP[]) || [])
     setPresentes((p as Presente[]) || [])
+    setFotosPendentes((f as FotoPendente[]) || [])
     setLoading(false)
   }, [])
+
+  async function aprovarFoto(id: string) {
+    setActionLoading(id)
+    await supabase.from('fotos').update({ aprovada: true }).eq('id', id)
+    setFotosPendentes((prev) => prev.filter((f) => f.id !== id))
+    setActionLoading(null)
+  }
+
+  async function rejeitarFoto(id: string) {
+    setActionLoading(id)
+    await supabase.from('fotos').delete().eq('id', id)
+    setFotosPendentes((prev) => prev.filter((f) => f.id !== id))
+    setActionLoading(null)
+  }
 
   useEffect(() => { loadData() }, [loadData])
 
@@ -209,6 +234,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {[
             { key: 'confirmacoes', label: `✅ Respostas (${vao.length} vão · ${naoVao.length} não)` },
             { key: 'presentes', label: `🎁 Presentes (${reservados}/${presentes.length})` },
+            { key: 'fotos', label: `📸 Fotos${fotosPendentes.length > 0 ? ` (${fotosPendentes.length} pendente${fotosPendentes.length > 1 ? 's' : ''})` : ''}` },
           ].map((t) => (
             <button
               key={t.key}
@@ -298,6 +324,62 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   </motion.div>
                 ))}
               </div>
+            )}
+          </>
+        ) : tab === 'fotos' ? (
+          <>
+            {fotosPendentes.length === 0 ? (
+              <div className="text-center py-20 text-gray-400 font-nunito">
+                <p className="text-4xl mb-3">✅</p>
+                Nenhuma foto aguardando aprovação.
+              </div>
+            ) : (
+              <>
+                <p className="text-sm text-gray-500 font-nunito mb-4">
+                  {fotosPendentes.length} foto{fotosPendentes.length > 1 ? 's' : ''} aguardando revisão — aprovadas aparecem na galeria pública.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {fotosPendentes.map((foto) => (
+                    <motion.div
+                      key={foto.id}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={foto.url}
+                        alt={`Foto de ${foto.nome_autor}`}
+                        className="w-full aspect-video object-cover"
+                      />
+                      <div className="p-3">
+                        <p className="font-nunito font-semibold text-texto text-sm mb-3 truncate">
+                          📷 {foto.nome_autor}
+                        </p>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => aprovarFoto(foto.id)}
+                            disabled={actionLoading === foto.id}
+                            className="flex-1 py-2 rounded-xl font-nunito font-bold text-sm text-white
+                              bg-green-500 hover:bg-green-600 disabled:opacity-50 transition-colors"
+                          >
+                            {actionLoading === foto.id ? '⏳' : '✅ Aprovar'}
+                          </button>
+                          <button
+                            onClick={() => rejeitarFoto(foto.id)}
+                            disabled={actionLoading === foto.id}
+                            className="flex-1 py-2 rounded-xl font-nunito font-bold text-sm text-white
+                              bg-red-400 hover:bg-red-500 disabled:opacity-50 transition-colors"
+                          >
+                            {actionLoading === foto.id ? '⏳' : '🗑️ Rejeitar'}
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </>
             )}
           </>
         ) : (

@@ -11,6 +11,7 @@ interface Foto {
   id: string
   nome_autor: string
   url: string
+  aprovada: boolean
   created_at: string
 }
 
@@ -86,6 +87,7 @@ export default function FotosPage() {
     const { data } = await supabase
       .from('fotos')
       .select('*')
+      .eq('aprovada', true)
       .order('created_at', { ascending: false })
     setFotos((data as Foto[]) || [])
     setLoading(false)
@@ -128,10 +130,11 @@ export default function FotosPage() {
         .from('fotos-festa')
         .getPublicUrl(path)
 
-      // Salva metadado na tabela fotos
+      // Salva metadado na tabela fotos (aprovada = false até admin aprovar)
       const { error: insertError } = await supabase.from('fotos').insert({
         nome_autor: nome.trim(),
         url: urlData.publicUrl,
+        aprovada: false,
       })
 
       if (insertError) throw insertError
@@ -212,7 +215,7 @@ export default function FotosPage() {
                 className="text-center py-4 mb-4 bg-green-50 rounded-2xl"
               >
                 <p className="text-3xl mb-1">🎉</p>
-                <p className="font-nunito font-bold text-green-700">Foto enviada com sucesso!</p>
+                <p className="font-nunito font-bold text-green-700">Foto enviada! Aparecerá após aprovação 🎉</p>
               </motion.div>
             )}
           </AnimatePresence>

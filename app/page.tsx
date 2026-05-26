@@ -11,6 +11,7 @@ import { Countdown } from '@/components/Countdown'
 import { FloatingBalloons } from '@/components/FloatingBalloons'
 import { ConfettiOnMount } from '@/components/ConfettiEffect'
 import { McQueenCar } from '@/components/McQueenCar'
+import { useKachow, KachowOverlay } from '@/components/KachowEffect'
 
 // Estrelinhas decorativas aleatórias — geradas no cliente para evitar hidratação
 function StarField() {
@@ -71,9 +72,11 @@ export default function HomePage() {
 
   const [photoError, setPhotoError] = useState(false)
   const handlePhotoError = useCallback(() => setPhotoError(true), [])
+  const { active: kachowActive, trigger: triggerKachow } = useKachow()
 
   return (
     <main className="relative min-h-screen overflow-x-hidden" style={{ background: 'var(--cor-fundo)' }}>
+      <KachowOverlay active={kachowActive} />
       <ConfettiOnMount />
       <FloatingBalloons />
       <StarField />
@@ -168,7 +171,12 @@ export default function HomePage() {
         >
           <span className="text-4xl animate-bounce-gentle">🏎️</span>
           <span className="font-bubblegum text-4xl sm:text-5xl md:text-7xl text-rosa">1 Aninho!</span>
-          <span className="text-4xl animate-bounce-gentle" style={{ animationDelay: '0.3s' }}>⚡</span>
+          <span
+            className="text-4xl animate-bounce-gentle cursor-pointer select-none"
+            style={{ animationDelay: '0.3s' }}
+            onClick={triggerKachow}
+            title="Ka-chow! ⚡"
+          >⚡</span>
         </motion.div>
 
         {/* McQueen */}
