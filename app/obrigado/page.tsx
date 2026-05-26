@@ -11,8 +11,21 @@ import { FloatingBalloons } from '@/components/FloatingBalloons'
 /* ================================================================
    TELA: CONFIRMOU PRESENÇA
    ================================================================ */
+function diasParaFesta(): { dias: number; label: string; emoji: string } {
+  const hoje = new Date()
+  hoje.setHours(0, 0, 0, 0)
+  const festa = new Date(`${FESTA_CONFIG.dataFesta}T00:00:00`)
+  const diff = Math.round((festa.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24))
+
+  if (diff === 0) return { dias: 0, label: 'A festa é hoje!', emoji: '🎊' }
+  if (diff === 1) return { dias: 1, label: 'Falta 1 dia para a festa!', emoji: '🏎️' }
+  if (diff > 1)  return { dias: diff, label: `Faltam ${diff} dias para a festa!`, emoji: '🏎️' }
+  return { dias: diff, label: 'A festa já aconteceu!', emoji: '🎉' }
+}
+
 function TelaPresenca({ nome, adultos, criancas }: { nome: string; adultos: number; criancas: number }) {
   const total = adultos + criancas
+  const { label, emoji, dias } = diasParaFesta()
 
   useEffect(() => {
     const t = setTimeout(() => fireConfettiSuccess(), 400)
@@ -59,10 +72,27 @@ function TelaPresenca({ nome, adultos, criancas }: { nome: string; adultos: numb
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="font-nunito text-gray-400 text-sm mb-8"
+          className="font-nunito text-gray-400 text-sm mb-5"
         >
           {total === 1 ? '1 pessoa confirmada' : `${total} pessoas confirmadas`} por você
         </motion.p>
+
+        {/* Contador de dias */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.62, type: 'spring', stiffness: 260, damping: 18 }}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl mb-8 font-nunito font-bold text-sm shadow-md"
+          style={{
+            background: dias === 0
+              ? 'linear-gradient(135deg, #FFD700, #FF6B00)'
+              : 'linear-gradient(135deg, #E31837, #1D4E8F)',
+            color: 'white',
+          }}
+        >
+          <span className="text-xl">{emoji}</span>
+          {label}
+        </motion.div>
 
         {/* Lembrete da festa */}
         <motion.div
