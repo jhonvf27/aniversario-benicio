@@ -14,7 +14,61 @@ interface Foto {
   created_at: string
 }
 
+// Mude para true no dia da festa para liberar o envio de fotos
+const FOTOS_LIBERADAS = false
+
 export default function FotosPage() {
+  if (!FOTOS_LIBERADAS) {
+    return (
+      <main
+        className="min-h-screen flex flex-col items-center justify-center px-4 text-center"
+        style={{ background: 'linear-gradient(135deg, #FFF8F2 0%, #FFE8E0 50%, #E8F0FF 100%)' }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md w-full"
+        >
+          <div className="text-7xl mb-6 animate-bounce-gentle">📸</div>
+
+          <h1 className="font-bubblegum text-4xl text-texto mb-3">
+            Galeria de Fotos
+          </h1>
+
+          <div className="bg-white/80 backdrop-blur rounded-3xl p-8 shadow-xl border border-white/60 mb-8">
+            <div className="text-5xl mb-4">🔒</div>
+            <h2 className="font-bubblegum text-2xl text-rosa mb-3">
+              Em breve!
+            </h2>
+            <p className="font-nunito text-gray-600 leading-relaxed">
+              A galeria será liberada no dia da festa para que todos possam compartilhar os momentos especiais do aniversário do{' '}
+              <strong className="text-rosa">{FESTA_CONFIG.nomeBebe}</strong>!
+            </p>
+            <div className="mt-5 pt-5 border-t border-gray-100 space-y-1 text-sm text-gray-500 font-nunito">
+              <p>📅 {FESTA_CONFIG.dataFesta.split('-').reverse().join('/')}</p>
+              <p>🕐 A partir das {FESTA_CONFIG.horarioFesta}h</p>
+              <p>🏎️ {FESTA_CONFIG.temaBesta}</p>
+            </div>
+          </div>
+
+          <Link href="/">
+            <motion.span
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl
+                font-nunito font-bold text-white shadow-lg
+                bg-gradient-to-r from-rosa to-lilas"
+              style={{ display: 'inline-flex' }}
+            >
+              ← Voltar ao convite
+            </motion.span>
+          </Link>
+        </motion.div>
+      </main>
+    )
+  }
+
+
   const [fotos, setFotos] = useState<Foto[]>([])
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
