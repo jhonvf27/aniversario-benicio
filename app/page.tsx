@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -68,8 +68,8 @@ export default function HomePage() {
     { locale: ptBR },
   )
 
-  const hasPhoto =
-    FESTA_CONFIG.fotoBebe !== '/foto-bebe.jpg' && FESTA_CONFIG.fotoBebe.length > 1
+  const [photoError, setPhotoError] = useState(false)
+  const handlePhotoError = useCallback(() => setPhotoError(true), [])
 
   return (
     <main className="relative min-h-screen overflow-x-hidden" style={{ background: 'var(--cor-fundo)' }}>
@@ -113,13 +113,14 @@ export default function HomePage() {
         >
           <div className="rainbow-border-wrapper">
             <div className="rainbow-border-inner w-44 h-44 md:w-56 md:h-56">
-              {hasPhoto ? (
+              {!photoError ? (
                 <Image
                   src={FESTA_CONFIG.fotoBebe}
                   alt={`Foto do ${FESTA_CONFIG.nomeBebe}`}
                   width={224}
                   height={224}
                   className="rounded-full w-full h-full object-cover"
+                  onError={handlePhotoError}
                   priority
                 />
               ) : (
