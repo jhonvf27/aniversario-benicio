@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Bubblegum_Sans, Nunito } from 'next/font/google'
 import './globals.css'
 import { FESTA_CONFIG } from '@/lib/config'
@@ -16,6 +16,11 @@ const nunito = Nunito({
   variable: '--font-nunito',
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: `🎂 ${FESTA_CONFIG.nomeBebe} está completando 1 Aninho!`,

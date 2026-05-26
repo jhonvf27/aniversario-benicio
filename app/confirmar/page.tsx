@@ -57,7 +57,7 @@ export default function ConfirmarPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white/85 backdrop-blur rounded-3xl p-8 md:p-10 shadow-2xl
+          className="bg-white/85 backdrop-blur rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl
             border border-white/60"
         >
           <RSVPForm />

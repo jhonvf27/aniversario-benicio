@@ -42,10 +42,10 @@ function FlipCard({ value, label, color }: { value: number; label: string; color
           style={{ perspective: 400 }}
         >
           <div
-            className="w-16 h-20 md:w-24 md:h-28 rounded-2xl flex items-center justify-center shadow-xl"
+            className="w-14 h-[68px] sm:w-16 sm:h-20 md:w-24 md:h-28 rounded-2xl flex items-center justify-center shadow-xl"
             style={{ background: color }}
           >
-            <span className="font-bubblegum text-4xl md:text-6xl text-white drop-shadow">
+            <span className="font-bubblegum text-3xl sm:text-4xl md:text-6xl text-white drop-shadow">
               {display}
             </span>
           </div>
@@ -60,7 +60,7 @@ function FlipCard({ value, label, color }: { value: number; label: string; color
 
 function Separator() {
   return (
-    <span className="font-bubblegum text-3xl md:text-5xl text-white/80 mt-4 select-none">
+    <span className="font-bubblegum text-xl sm:text-3xl md:text-5xl text-white/80 mt-3 sm:mt-4 select-none">
       :
     </span>
   )
@@ -122,7 +122,7 @@ export function Countdown() {
             🎉 A festa já aconteceu! Que saudade!
           </motion.p>
         ) : (
-          <div className="flex items-start justify-center gap-3 md:gap-6">
+          <div className="flex items-start justify-center gap-1 sm:gap-3 md:gap-6">
             <FlipCard value={timeLeft.dias} label="Dias" color="rgba(0,0,0,0.25)" />
             <Separator />
             <FlipCard value={timeLeft.horas} label="Horas" color="rgba(0,0,0,0.25)" />

@@ -143,7 +143,7 @@ export default function HomePage() {
           initial="hidden"
           animate="visible"
           custom={0.5}
-          className="font-bubblegum text-6xl md:text-8xl lg:text-9xl mb-2 leading-none text-gradient"
+          className="font-bubblegum text-5xl sm:text-6xl md:text-8xl lg:text-9xl mb-2 leading-none text-gradient"
         >
           {FESTA_CONFIG.nomeBebe}
         </motion.h1>
@@ -166,7 +166,7 @@ export default function HomePage() {
           className="flex items-center justify-center gap-3 mb-10"
         >
           <span className="text-4xl animate-bounce-gentle">🎂</span>
-          <span className="font-bubblegum text-5xl md:text-7xl text-rosa">1 Aninho!</span>
+          <span className="font-bubblegum text-4xl sm:text-5xl md:text-7xl text-rosa">1 Aninho!</span>
           <span className="text-4xl animate-bounce-gentle" style={{ animationDelay: '0.3s' }}>🎂</span>
         </motion.div>
 

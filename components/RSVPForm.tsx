@@ -191,7 +191,7 @@ export function RSVPForm() {
         disabled={!form.nome.trim() || !form.telefone.trim() || status === 'loading'}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="w-full py-5 rounded-2xl font-bubblegum text-2xl text-white shadow-xl
+        className="w-full py-5 rounded-2xl font-bubblegum text-xl sm:text-2xl text-white shadow-xl
           bg-gradient-to-r from-rosa to-lilas
           disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
       >

@@ -158,7 +158,7 @@ export function PresenteCard({ presente, onReserved }: PresenteCardProps) {
 
             {/* Card do modal */}
             <motion.div
-              className="relative bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl z-10"
+              className="relative bg-white rounded-3xl p-5 sm:p-8 max-w-md w-full shadow-2xl z-10"
               initial={{ opacity: 0, scale: 0.85, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.85, y: 20 }}
@@ -229,7 +229,7 @@ export function PresenteCard({ presente, onReserved }: PresenteCardProps) {
                         onChange={(e) => setNome(e.target.value)}
                         required
                         placeholder="Ex: Maria da Silva"
-                        className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm"
+                        className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-base"
                       />
                     </div>
 
@@ -242,7 +242,7 @@ export function PresenteCard({ presente, onReserved }: PresenteCardProps) {
                         value={whatsapp}
                         onChange={(e) => setWhatsapp(e.target.value)}
                         placeholder="(11) 99999-9999"
-                        className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm"
+                        className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-base"
                       />
                     </div>
 
