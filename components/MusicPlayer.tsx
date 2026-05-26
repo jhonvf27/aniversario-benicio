@@ -16,7 +16,10 @@ export function MusicPlayer() {
     const audio = new Audio(MUSIC_SRC)
     audio.loop = true
     audio.volume = 0.25
+    audio.currentTime = 15
     audio.addEventListener('canplaythrough', () => setHasFile(true), { once: true })
+    // Volta para 15s no loop para não começar do zero
+    audio.addEventListener('ended', () => { audio.currentTime = 15 })
     audioRef.current = audio
 
     return () => {
