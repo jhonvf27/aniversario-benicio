@@ -30,14 +30,14 @@ function Balloon({ color, size }: BalloonProps) {
 }
 
 const BALLOONS = [
-  { color: '#FF6B9D', left: '4%',  delay: '0s',   duration: '11s', size: 56 },
-  { color: '#4DAEE5', left: '8%',  delay: '3s',   duration: '14s', size: 44 },
-  { color: '#FFD93D', left: '88%', delay: '1s',   duration: '12s', size: 60 },
-  { color: '#C084FC', left: '93%', delay: '4.5s', duration: '10s', size: 48 },
-  { color: '#4ADE80', left: '2%',  delay: '6s',   duration: '13s', size: 52 },
-  { color: '#FF9A4A', left: '96%', delay: '2s',   duration: '15s', size: 42 },
-  { color: '#4DAEE5', left: '91%', delay: '8s',   duration: '11s', size: 36 },
-  { color: '#FF6B9D', left: '6%',  delay: '9s',   duration: '13s', size: 40 },
+  { color: '#E31837', left: '4%',  delay: '0s',   duration: '11s', size: 56 },
+  { color: '#1D4E8F', left: '8%',  delay: '3s',   duration: '14s', size: 44 },
+  { color: '#FFD700', left: '88%', delay: '1s',   duration: '12s', size: 60 },
+  { color: '#E31837', left: '93%', delay: '4.5s', duration: '10s', size: 48 },
+  { color: '#FF6B00', left: '2%',  delay: '6s',   duration: '13s', size: 52 },
+  { color: '#FFD700', left: '96%', delay: '2s',   duration: '15s', size: 42 },
+  { color: '#1D4E8F', left: '91%', delay: '8s',   duration: '11s', size: 36 },
+  { color: '#E31837', left: '6%',  delay: '9s',   duration: '13s', size: 40 },
 ]
 
 export function FloatingBalloons() {

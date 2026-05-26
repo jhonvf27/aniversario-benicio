@@ -81,7 +81,7 @@ export function Countdown() {
     <section
       className="py-16 px-4 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #FF6B9D 0%, #C084FC 50%, #4DAEE5 100%)',
+        background: 'linear-gradient(135deg, #E31837 0%, #B01020 40%, #1D4E8F 100%)',
       }}
     >
       {/* Fundo decorativo */}
@@ -110,7 +110,7 @@ export function Countdown() {
           ⏰ Faltam apenas...
         </motion.h2>
         <p className="text-white/80 font-nunito font-semibold mb-10 text-lg">
-          Corre que vem festa! 🎪🎈
+          Acelera que vem festa! 🏎️⚡
         </p>
 
         {timeLeft === null ? (

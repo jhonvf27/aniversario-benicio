@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --cor-rosa: #FF6B9D;
-  --cor-azul: #4DAEE5;
-  --cor-amarelo: #FFD93D;
-  --cor-lilas: #C084FC;
+  --cor-rosa: #E31837;    /* vermelho McQueen */
+  --cor-azul: #1D4E8F;    /* azul racing */
+  --cor-amarelo: #FFD700; /* amarelo ouro */
+  --cor-lilas: #FF6B00;   /* laranja racing */
   --cor-verde: #4ADE80;
-  --cor-fundo: #FFF9F5;
-  --cor-texto: #2D1B69;
+  --cor-fundo: #FFF8F2;
+  --cor-texto: #1A1A2E;
 }
 
 * {
@@ -103,9 +103,9 @@ body {
   background: linear-gradient(
     90deg,
     var(--cor-rosa),
+    var(--cor-amarelo),
     var(--cor-lilas),
     var(--cor-azul),
-    var(--cor-amarelo),
     var(--cor-rosa)
   );
   background-size: 300% auto;
@@ -129,12 +129,13 @@ body {
   border-radius: 50%;
   background: conic-gradient(
     from 0deg,
-    #FF6B9D,
-    #FFD93D,
-    #4ADE80,
-    #4DAEE5,
-    #C084FC,
-    #FF6B9D
+    #E31837,
+    #FFD700,
+    #FF6B00,
+    #1D4E8F,
+    #E31837,
+    #FFD700,
+    #E31837
   );
   animation: spin-rainbow 3s linear infinite;
   z-index: 0;

@@ -13,13 +13,13 @@ const config: Config = {
         nunito: ['var(--font-nunito)', 'sans-serif'],
       },
       colors: {
-        rosa: '#FF6B9D',
-        azul: '#4DAEE5',
-        amarelo: '#FFD93D',
-        lilas: '#C084FC',
-        verde: '#4ADE80',
-        fundo: '#FFF9F5',
-        texto: '#2D1B69',
+        rosa: '#E31837',    // vermelho McQueen
+        azul: '#1D4E8F',    // azul racing
+        amarelo: '#FFD700', // amarelo ouro
+        lilas: '#FF6B00',   // laranja racing
+        verde: '#4ADE80',   // verde checkered
+        fundo: '#FFF8F2',
+        texto: '#1A1A2E',
       },
       animation: {
         'float-up': 'float-up 12s linear infinite',

@@ -42,7 +42,7 @@ export default function ConfirmarPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10"
         >
-          <div className="text-7xl mb-4 animate-bounce-gentle inline-block">🎪</div>
+          <div className="text-7xl mb-4 animate-bounce-gentle inline-block">🏎️</div>
           <h1 className="font-bubblegum text-4xl md:text-5xl text-texto mb-3">
             Confirmar Presença
           </h1>

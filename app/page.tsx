@@ -18,7 +18,7 @@ function StarField() {
   }>>([])
 
   useEffect(() => {
-    const emojis = ['⭐', '✨', '🌟', '💫', '🎀', '🎪']
+    const emojis = ['⚡', '🏎️', '🏁', '⭐', '🔥', '🏆']
     setStars(
       Array.from({ length: 22 }, (_, i) => ({
         id: i,
@@ -85,11 +85,11 @@ export default function HomePage() {
           px-4 py-20 text-center dots-bg"
         style={{
           background:
-            'radial-gradient(circle at 15% 15%, rgba(255,107,157,0.18) 0%, transparent 40%),' +
-            'radial-gradient(circle at 85% 85%, rgba(77,174,229,0.18) 0%, transparent 40%),' +
-            'radial-gradient(circle at 65% 25%, rgba(255,217,61,0.12) 0%, transparent 30%),' +
-            'radial-gradient(circle at 30% 75%, rgba(192,132,252,0.12) 0%, transparent 30%),' +
-            '#FFF9F5',
+            'radial-gradient(circle at 15% 15%, rgba(227,24,55,0.15) 0%, transparent 40%),' +
+            'radial-gradient(circle at 85% 85%, rgba(29,78,143,0.15) 0%, transparent 40%),' +
+            'radial-gradient(circle at 65% 25%, rgba(255,215,0,0.12) 0%, transparent 30%),' +
+            'radial-gradient(circle at 30% 75%, rgba(255,107,0,0.10) 0%, transparent 30%),' +
+            '#FFF8F2',
         }}
       >
         {/* Você está convidado */}
@@ -165,9 +165,9 @@ export default function HomePage() {
           custom={0.8}
           className="flex items-center justify-center gap-3 mb-10"
         >
-          <span className="text-4xl animate-bounce-gentle">🎂</span>
+          <span className="text-4xl animate-bounce-gentle">🏎️</span>
           <span className="font-bubblegum text-4xl sm:text-5xl md:text-7xl text-rosa">1 Aninho!</span>
-          <span className="text-4xl animate-bounce-gentle" style={{ animationDelay: '0.3s' }}>🎂</span>
+          <span className="text-4xl animate-bounce-gentle" style={{ animationDelay: '0.3s' }}>⚡</span>
         </motion.div>
 
         {/* Seta de scroll */}
@@ -201,7 +201,7 @@ export default function HomePage() {
             <div className="space-y-5">
               <DetailRow icon="📅" label="Data" value={dataFormatada} />
               <DetailRow icon="🕐" label="Horário" value={`${FESTA_CONFIG.horarioFesta}h`} />
-              <DetailRow icon="🎠" label="Tema" value={FESTA_CONFIG.temaBesta} />
+              <DetailRow icon="🏎️" label="Tema" value={FESTA_CONFIG.temaBesta} />
               <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/60">
                 <span className="text-3xl mt-0.5">📍</span>
                 <div>
@@ -308,7 +308,7 @@ export default function HomePage() {
         className="relative z-10 py-20 px-4"
         style={{
           background:
-            'linear-gradient(135deg, rgba(255,229,240,0.8) 0%, rgba(240,229,255,0.8) 50%, rgba(229,240,255,0.8) 100%)',
+            'linear-gradient(135deg, rgba(227,24,55,0.08) 0%, rgba(255,215,0,0.10) 50%, rgba(29,78,143,0.08) 100%)',
         }}
       >
         <motion.div
