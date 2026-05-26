@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Bubblegum_Sans, Nunito } from 'next/font/google'
 import './globals.css'
 import { FESTA_CONFIG } from '@/lib/config'
+import { MusicPlayer } from '@/components/MusicPlayer'
 
 const bubblegumSans = Bubblegum_Sans({
   weight: '400',
@@ -35,7 +36,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${bubblegumSans.variable} ${nunito.variable}`}>
-      <body className="font-nunito antialiased">{children}</body>
+      <body className="font-nunito antialiased">
+        {children}
+        <MusicPlayer />
+      </body>
     </html>
   )
 }

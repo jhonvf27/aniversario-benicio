@@ -282,6 +282,22 @@ export default function HomePage() {
               </motion.span>
             </Link>
           </div>
+
+          <div className="mt-4">
+            <Link href="/fotos">
+              <motion.span
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl
+                  font-bubblegum text-lg text-texto shadow-md w-full sm:w-auto
+                  bg-white/80 border-2 border-rosa/30
+                  transition-shadow hover:shadow-xl hover:border-rosa"
+                style={{ display: 'inline-flex' }}
+              >
+                📸 Enviar Fotos do Aniversário
+              </motion.span>
+            </Link>
+          </div>
         </motion.div>
       </section>
 
