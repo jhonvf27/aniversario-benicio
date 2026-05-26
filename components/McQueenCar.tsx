@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, useAnimation, AnimatePresence } from 'framer-motion'
 
 /**
- * Carro estilo Relâmpago McQueen em SVG — vermelho com número 95
+ * Relâmpago McQueen — SVG redesenhado com gradientes, spoiler e rodas com raios
  * Easter egg: clique para o turbo! 🔥
  */
 export function McQueenCar({ className = '' }: { className?: string }) {
@@ -12,7 +12,6 @@ export function McQueenCar({ className = '' }: { className?: string }) {
   const [turbo, setTurbo] = useState(false)
   const [showHint, setShowHint] = useState(false)
 
-  // Mostra hint sutil depois de 2s
   useEffect(() => {
     const t = setTimeout(() => setShowHint(true), 2000)
     return () => clearTimeout(t)
@@ -23,17 +22,14 @@ export function McQueenCar({ className = '' }: { className?: string }) {
     setTurbo(true)
     setShowHint(false)
 
-    // Acelera e sai pela direita
     await controls.start({
       x: '170vw',
       scaleX: 1.15,
       transition: { duration: 0.45, ease: [0.2, 0, 0.9, 1] },
     })
 
-    // Snap para fora da esquerda (sem animação)
     controls.set({ x: '-30vw', scaleX: 1 })
 
-    // Volta com spring
     await controls.start({
       x: 0,
       scaleX: 1,
@@ -45,7 +41,6 @@ export function McQueenCar({ className = '' }: { className?: string }) {
 
   return (
     <div className={`relative ${className}`}>
-      {/* Controla o movimento horizontal (turbo) */}
       <motion.div
         animate={controls}
         onClick={handleClick}
@@ -53,7 +48,6 @@ export function McQueenCar({ className = '' }: { className?: string }) {
         title="Clique para o turbo! 🔥"
         whileHover={!turbo ? { scale: 1.03 } : undefined}
       >
-        {/* Chamas — aparecem atrás do carro no turbo */}
         <AnimatePresence>
           {turbo && (
             <motion.div
@@ -70,7 +64,7 @@ export function McQueenCar({ className = '' }: { className?: string }) {
           )}
         </AnimatePresence>
 
-        {/* Controla o bounce vertical (independente do turbo) */}
+        {/* Y bounce — independente do turbo */}
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
@@ -82,50 +76,112 @@ export function McQueenCar({ className = '' }: { className?: string }) {
             className="w-full h-full drop-shadow-2xl"
             aria-label="Relâmpago McQueen"
           >
-            {/* Sombra embaixo */}
-            <ellipse cx="140" cy="122" rx="95" ry="7" fill="rgba(0,0,0,0.15)" />
+            <defs>
+              {/* Gradiente do corpo — vermelho com profundidade */}
+              <linearGradient id="mcbody" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FF2535" />
+                <stop offset="45%" stopColor="#E31837" />
+                <stop offset="100%" stopColor="#9A0E1C" />
+              </linearGradient>
+              {/* Gradiente do teto — vermelho mais escuro */}
+              <linearGradient id="mcroof" x1="0.3" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#CC1530" />
+                <stop offset="100%" stopColor="#7E0A16" />
+              </linearGradient>
+              {/* Vidro */}
+              <linearGradient id="mcglass" x1="0.1" y1="0" x2="0.9" y2="1">
+                <stop offset="0%" stopColor="#C8E8FF" stopOpacity="0.96" />
+                <stop offset="100%" stopColor="#4070B0" stopOpacity="0.78" />
+              </linearGradient>
+              {/* Pneu */}
+              <radialGradient id="mctire" cx="38%" cy="30%" r="56%">
+                <stop offset="0%" stopColor="#404040" />
+                <stop offset="100%" stopColor="#0C0C0C" />
+              </radialGradient>
+            </defs>
 
-            {/* Corpo principal — vermelho McQueen */}
+            {/* Sombra */}
+            <ellipse cx="140" cy="124" rx="90" ry="6" fill="rgba(0,0,0,0.18)" />
+
+            {/* ── SPOILER TRASEIRO ── */}
+            {/* Haste */}
+            <rect x="31" y="54" width="8" height="24" rx="2" fill="#8C0A16" />
+            {/* Asa superior */}
             <path
-              d="M30 80 C30 80 45 55 75 48 L110 40 C120 38 135 32 155 32 L185 32 C210 32 235 42 248 58 L258 72 C262 78 262 88 258 92 L30 92 Z"
-              fill="#E31837"
+              d="M 16,47 L 50,47 C 53,47 55,50 53,52 L 19,52 C 17,52 14,50 16,47 Z"
+              fill="#C01430"
+            />
+            {/* Reflexo na asa */}
+            <path
+              d="M 17,47 L 51,47 L 51,49 L 17,49 Z"
+              fill="#E02040"
+              opacity="0.7"
             />
 
-            {/* Capô frontal */}
-            <path d="M248 58 L258 72 L262 80 L248 80 Z" fill="#C01020" />
-
-            {/* Teto / cabine */}
+            {/* ── CORPO PRINCIPAL (contorno completo com cabine) ── */}
             <path
-              d="M95 48 C100 36 115 26 140 24 L175 24 C195 24 215 34 225 48 Z"
-              fill="#C01020"
+              d="
+                M 38,90
+                L 248,90
+                C 259,90 266,83 263,71
+                L 253,55
+                L 227,41
+                L 203,37
+                L 207,23
+                L 178,19
+                L 149,19
+                L 124,22
+                L 111,37
+                L 83,54
+                L 54,69
+                L 38,79
+                Z
+              "
+              fill="url(#mcbody)"
             />
 
-            {/* Para-brisa */}
+            {/* ── TETO (faixa escura no topo da cabine) ── */}
             <path
-              d="M100 47 C104 37 116 28 138 26 L170 26 C188 26 205 35 213 47 Z"
-              fill="#87CEEB"
-              fillOpacity="0.85"
+              d="
+                M 128,23
+                C 132,18 144,16 156,17
+                L 178,17
+                C 190,17 198,20 202,25
+                L 200,23
+                C 196,19 186,17 174,17
+                L 150,17
+                C 138,17 128,21 124,25
+                Z
+              "
+              fill="url(#mcroof)"
             />
 
-            {/* Janela lateral */}
+            {/* ── VIDROS DA CABINE ── */}
             <path
-              d="M90 48 L100 47 L213 47 L225 48 L215 58 L95 58 Z"
-              fill="#B0D8F0"
-              fillOpacity="0.7"
+              d="
+                M 115,37
+                L 127,25
+                C 131,20 143,18 155,19
+                L 178,19
+                L 203,25
+                L 199,37
+                Z
+              "
+              fill="url(#mcglass)"
             />
 
-            {/* Faixa dourada lateral */}
-            <path d="M32 74 L255 74 L258 78 L30 78 Z" fill="#FFD700" />
+            {/* ── FAIXA DOURADA LATERAL ── */}
+            <path d="M 40,76 L 250,76 L 253,82 L 39,82 Z" fill="#FFD700" />
 
-            {/* Relâmpago ⚡ lateral */}
+            {/* ── RELÂMPAGO ⚡ ── */}
             <path
-              d="M145 60 L135 72 L143 72 L133 84 L148 68 L140 68 Z"
+              d="M 152,56 L 140,70 L 150,70 L 138,83 L 156,66 L 146,66 Z"
               fill="#FFD700"
             />
 
-            {/* Número 95 */}
+            {/* ── NÚMERO 95 ── */}
             <text
-              x="175"
+              x="194"
               y="73"
               fontFamily="Arial Black, sans-serif"
               fontWeight="900"
@@ -136,32 +192,53 @@ export function McQueenCar({ className = '' }: { className?: string }) {
               95
             </text>
 
-            {/* Pneu traseiro */}
-            <circle cx="72" cy="95" r="20" fill="#1A1A1A" />
-            <circle cx="72" cy="95" r="13" fill="#333" />
-            <circle cx="72" cy="95" r="6" fill="#888" />
+            {/* ── PNEU TRASEIRO ── */}
+            <circle cx="74" cy="97" r="19" fill="url(#mctire)" />
+            <circle cx="74" cy="97" r="12" fill="#1A1A1A" />
+            <circle cx="74" cy="97" r="5" fill="#888" />
+            {/* Raios */}
+            <g stroke="#5A5A5A" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="74" y1="84" x2="74" y2="110" />
+              <line x1="85.3" y1="89.5" x2="62.7" y2="104.5" />
+              <line x1="85.3" y1="104.5" x2="62.7" y2="89.5" />
+            </g>
 
-            {/* Pneu dianteiro */}
-            <circle cx="210" cy="95" r="20" fill="#1A1A1A" />
-            <circle cx="210" cy="95" r="13" fill="#333" />
-            <circle cx="210" cy="95" r="6" fill="#888" />
+            {/* ── PNEU DIANTEIRO ── */}
+            <circle cx="210" cy="97" r="19" fill="url(#mctire)" />
+            <circle cx="210" cy="97" r="12" fill="#1A1A1A" />
+            <circle cx="210" cy="97" r="5" fill="#888" />
+            {/* Raios */}
+            <g stroke="#5A5A5A" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="210" y1="84" x2="210" y2="110" />
+              <line x1="221.3" y1="89.5" x2="198.7" y2="104.5" />
+              <line x1="221.3" y1="104.5" x2="198.7" y2="89.5" />
+            </g>
 
-            {/* Farol dianteiro */}
-            <ellipse cx="253" cy="70" rx="5" ry="8" fill="#FFF9A0" fillOpacity="0.9" />
+            {/* ── NARIZ DIANTEIRO (detalhe escuro) ── */}
+            <path
+              d="M 248,90 C 259,90 266,83 263,71 L 253,71 C 255,79 253,87 245,88 Z"
+              fill="#BC0E28"
+            />
 
-            {/* Para-choque dianteiro */}
-            <path d="M255 80 L262 80 L265 86 L252 88 Z" fill="#C01020" />
+            {/* ── FAROL (olho do McQueen) ── */}
+            <path
+              d="M 256,61 C 255,54 259,49 264,51 C 268,54 267,63 262,66 C 258,66 256,64 256,61 Z"
+              fill="#FFFAAA"
+              fillOpacity="0.95"
+            />
+            <ellipse cx="261" cy="59" rx="3" ry="4.5" fill="white" fillOpacity="0.5" />
 
-            {/* Para-choque traseiro */}
-            <path d="M25 80 L30 80 L30 90 L22 88 Z" fill="#C01020" />
+            {/* ── LUZ TRASEIRA ── */}
+            <rect x="34" y="64" width="7" height="14" rx="2" fill="#FF2233" />
+            <rect x="34" y="64" width="7" height="5" rx="2" fill="#FF5566" />
 
-            {/* Detalhe traseiro */}
-            <rect x="22" y="65" width="10" height="8" rx="2" fill="#FF4444" />
+            {/* ── ESCAPAMENTO ── */}
+            <rect x="27" y="83" width="13" height="5" rx="2.5" fill="#666" />
+            <rect x="27" y="83" width="4" height="5" rx="2" fill="#444" />
           </svg>
         </motion.div>
       </motion.div>
 
-      {/* Hint sutil */}
       <AnimatePresence>
         {showHint && !turbo && (
           <motion.p
