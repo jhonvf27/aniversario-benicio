@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
   let body: {
     nome?: string
     telefone?: string
+    presenca?: boolean
     quantidade_adultos?: number
     quantidade_criancas?: number
     mensagem?: string
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'JSON inválido' }, { status: 400 })
   }
 
-  const { nome, telefone, quantidade_adultos, quantidade_criancas, mensagem } = body
+  const { nome, telefone, presenca = true, quantidade_adultos, quantidade_criancas, mensagem } = body
 
   if (!nome?.trim()) {
     return NextResponse.json({ error: 'Nome é obrigatório' }, { status: 400 })
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Telefone é obrigatório' }, { status: 400 })
   }
 
-  // Bloqueia confirmação duplicada pelo mesmo telefone
+  // Bloqueia duplicata pelo mesmo telefone
   const { data: existente } = await supabase
     .from('rsvp')
     .select('id, nome')
@@ -44,8 +45,9 @@ export async function POST(req: NextRequest) {
     .insert({
       nome: nome.trim(),
       telefone: telefone.trim(),
-      quantidade_adultos: Number(quantidade_adultos) || 1,
-      quantidade_criancas: Number(quantidade_criancas) || 0,
+      presenca,
+      quantidade_adultos: presenca ? (Number(quantidade_adultos) || 1) : 0,
+      quantidade_criancas: presenca ? (Number(quantidade_criancas) || 0) : 0,
       mensagem: mensagem?.trim() || null,
     })
     .select()

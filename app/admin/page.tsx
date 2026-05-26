@@ -20,6 +20,7 @@ interface RSVP {
   id: string
   nome: string
   telefone: string
+  presenca: boolean | null
   quantidade_adultos: number
   quantidade_criancas: number
   mensagem: string | null
@@ -139,8 +140,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   useEffect(() => { loadData() }, [loadData])
 
-  const totalAdultos = rsvps.reduce((s, r) => s + r.quantidade_adultos, 0)
-  const totalCriancas = rsvps.reduce((s, r) => s + r.quantidade_criancas, 0)
+  const vao = rsvps.filter((r) => r.presenca !== false)
+  const naoVao = rsvps.filter((r) => r.presenca === false)
+  const totalAdultos = vao.reduce((s, r) => s + r.quantidade_adultos, 0)
+  const totalCriancas = vao.reduce((s, r) => s + r.quantidade_criancas, 0)
   const reservados = presentes.filter((p) => p.reservado_por).length
 
   return (
@@ -180,9 +183,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
-            { emoji: '👥', valor: rsvps.length, label: 'Confirmados', grad: 'from-rosa to-lilas' },
-            { emoji: '🧑', valor: totalAdultos, label: 'Adultos', grad: 'from-azul to-lilas' },
-            { emoji: '👶', valor: totalCriancas, label: 'Crianças', grad: 'from-amarelo to-verde' },
+            { emoji: '✅', valor: vao.length, label: 'Vão', grad: 'from-rosa to-lilas' },
+            { emoji: '😢', valor: naoVao.length, label: 'Não vão', grad: 'from-gray-400 to-gray-500' },
+            { emoji: '🧑', valor: `${totalAdultos}+${totalCriancas}`, label: 'Ad+Cri', grad: 'from-azul to-lilas' },
             { emoji: '🎁', valor: `${reservados}/${presentes.length}`, label: 'Presentes', grad: 'from-verde to-azul' },
           ].map((s, i) => (
             <motion.div
@@ -204,7 +207,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         {/* Tabs */}
         <div className="flex gap-2 mb-6 flex-wrap">
           {[
-            { key: 'confirmacoes', label: `✅ Confirmações (${rsvps.length})` },
+            { key: 'confirmacoes', label: `✅ Respostas (${vao.length} vão · ${naoVao.length} não)` },
             { key: 'presentes', label: `🎁 Presentes (${reservados}/${presentes.length})` },
           ].map((t) => (
             <button
@@ -248,14 +251,24 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <h3 className="font-bubblegum text-lg text-texto">{r.nome}</h3>
-                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">
-                            ✅ Confirmado
-                          </span>
+                          {r.presenca === false ? (
+                            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-semibold">
+                              😢 Não vai
+                            </span>
+                          ) : (
+                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">
+                              ✅ Confirmado
+                            </span>
+                          )}
                         </div>
                         <div className="flex gap-x-4 gap-y-1 flex-wrap text-sm text-gray-500 font-nunito">
                           <span>📞 {r.telefone}</span>
-                          <span>🧑 {r.quantidade_adultos} adulto{r.quantidade_adultos !== 1 ? 's' : ''}</span>
-                          <span>👶 {r.quantidade_criancas} criança{r.quantidade_criancas !== 1 ? 's' : ''}</span>
+                          {r.presenca !== false && (
+                            <>
+                              <span>🧑 {r.quantidade_adultos} adulto{r.quantidade_adultos !== 1 ? 's' : ''}</span>
+                              <span>👶 {r.quantidade_criancas} criança{r.quantidade_criancas !== 1 ? 's' : ''}</span>
+                            </>
+                          )}
                           <span>🗓 {format(new Date(r.created_at), "dd/MM 'às' HH:mm", { locale: ptBR })}</span>
                         </div>
                         {r.mensagem && (

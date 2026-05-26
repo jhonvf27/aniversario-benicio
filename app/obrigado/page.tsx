@@ -8,11 +8,10 @@ import { FESTA_CONFIG } from '@/lib/config'
 import { fireConfettiSuccess } from '@/components/ConfettiEffect'
 import { FloatingBalloons } from '@/components/FloatingBalloons'
 
-function ObrigadoContent() {
-  const params = useSearchParams()
-  const nome = params.get('nome') || 'você'
-  const adultos = Number(params.get('adultos') || 1)
-  const criancas = Number(params.get('criancas') || 0)
+/* ================================================================
+   TELA: CONFIRMOU PRESENÇA
+   ================================================================ */
+function TelaPresenca({ nome, adultos, criancas }: { nome: string; adultos: number; criancas: number }) {
   const total = adultos + criancas
 
   useEffect(() => {
@@ -21,9 +20,8 @@ function ObrigadoContent() {
   }, [])
 
   function shareWhatsApp() {
-    const url = encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')
     const text = encodeURIComponent(
-      `🎪🎂 Confirmei presença no aniversário de 1 aninho do ${FESTA_CONFIG.nomeBebe}!\n` +
+      `🏎️🎂 Confirmei presença no aniversário de 1 aninho do ${FESTA_CONFIG.nomeBebe}!\n` +
       `Venha você também: ${typeof window !== 'undefined' ? window.location.origin : ''}`,
     )
     window.open(`https://wa.me/?text=${text}`, '_blank')
@@ -37,7 +35,6 @@ function ObrigadoContent() {
       <FloatingBalloons />
 
       <div className="relative z-10 max-w-lg w-full">
-        {/* Emoji animado */}
         <motion.div
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -75,7 +72,7 @@ function ObrigadoContent() {
           {total === 1 ? '1 pessoa confirmada' : `${total} pessoas confirmadas`} por você
         </motion.p>
 
-        {/* Card com detalhes da festa */}
+        {/* Lembrete da festa */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -89,7 +86,7 @@ function ObrigadoContent() {
             <p>📅 <strong>Data:</strong> {FESTA_CONFIG.dataFesta.split('-').reverse().join('/')}</p>
             <p>🕐 <strong>Horário:</strong> {FESTA_CONFIG.horarioFesta}h</p>
             <p>📍 <strong>Local:</strong> {FESTA_CONFIG.localFesta}</p>
-            <p>🎠 <strong>Tema:</strong> {FESTA_CONFIG.temaBesta}</p>
+            <p>🏎️ <strong>Tema:</strong> {FESTA_CONFIG.temaBesta}</p>
           </div>
           {FESTA_CONFIG.linkMaps && (
             <a
@@ -103,7 +100,6 @@ function ObrigadoContent() {
           )}
         </motion.div>
 
-        {/* Ações */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -152,6 +148,106 @@ function ObrigadoContent() {
       </div>
     </main>
   )
+}
+
+/* ================================================================
+   TELA: NÃO VAI COMPARECER
+   ================================================================ */
+function TelaAusencia({ nome }: { nome: string }) {
+  return (
+    <main
+      className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center px-4 py-16 text-center"
+      style={{ background: 'linear-gradient(135deg, #F5F5F5 0%, #EEF2F7 100%)' }}
+    >
+      <div className="relative z-10 max-w-md w-full">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+          className="text-8xl mb-6 inline-block"
+        >
+          💌
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="font-bubblegum text-4xl sm:text-5xl text-texto mb-3"
+        >
+          Que pena,{' '}
+          <span style={{ color: '#E31837' }}>{nome.split(' ')[0]}!</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="font-nunito text-lg text-gray-600 mb-2"
+        >
+          Sua mensagem chegou com muito carinho. 🥰
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="font-nunito text-gray-400 text-sm mb-10"
+        >
+          Os papais do {FESTA_CONFIG.nomeBebe} vão adorar saber que você pensou neles! 💕
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="flex flex-col sm:flex-row gap-3 justify-center"
+        >
+          <Link href="/presentes">
+            <motion.span
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center justify-center gap-2 px-6 py-3 rounded-2xl
+                font-nunito font-bold text-white shadow-lg text-sm
+                bg-gradient-to-r from-rosa to-lilas"
+              style={{ display: 'flex' }}
+            >
+              🎁 Ver lista de presentes
+            </motion.span>
+          </Link>
+
+          <Link href="/">
+            <motion.span
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center justify-center gap-2 px-6 py-3 rounded-2xl
+                font-nunito font-bold text-texto shadow-md text-sm bg-white/80 border border-gray-200"
+              style={{ display: 'flex' }}
+            >
+              🏠 Voltar ao convite
+            </motion.span>
+          </Link>
+        </motion.div>
+      </div>
+    </main>
+  )
+}
+
+/* ================================================================
+   CONTEÚDO PRINCIPAL (lê search params)
+   ================================================================ */
+function ObrigadoContent() {
+  const params = useSearchParams()
+  const nome = params.get('nome') || 'você'
+  const ausencia = params.get('ausencia') === 'true'
+  const adultos = Number(params.get('adultos') || 1)
+  const criancas = Number(params.get('criancas') || 0)
+
+  if (ausencia) {
+    return <TelaAusencia nome={nome} />
+  }
+
+  return <TelaPresenca nome={nome} adultos={adultos} criancas={criancas} />
 }
 
 export default function ObrigadoPage() {
