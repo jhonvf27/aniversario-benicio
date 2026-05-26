@@ -12,7 +12,7 @@ interface FormState {
   mensagem: string
 }
 
-type Status = 'idle' | 'loading' | 'success' | 'error'
+type Status = 'idle' | 'loading' | 'success' | 'error' | 'duplicate'
 
 const initial: FormState = {
   nome: '',
@@ -47,6 +47,12 @@ export function RSVPForm() {
       })
 
       const data = await res.json()
+
+      if (res.status === 409) {
+        setStatus('duplicate')
+        return
+      }
+
       if (!res.ok) throw new Error(data.error || 'Erro ao confirmar presença')
 
       // Redireciona para página de agradecimento personalizada
@@ -59,6 +65,30 @@ export function RSVPForm() {
       setStatus('error')
       setErrorMsg(err instanceof Error ? err.message : 'Erro inesperado')
     }
+  }
+
+  if (status === 'duplicate') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="text-center py-10 px-4"
+      >
+        <div className="text-7xl mb-4">🏎️</div>
+        <h2 className="font-bubblegum text-3xl text-texto mb-2">Já confirmado!</h2>
+        <p className="text-gray-600 font-nunito mb-6">
+          Esse telefone já está na lista de convidados. <br />
+          Te esperamos na festa! 🎉
+        </p>
+        <button
+          onClick={() => setStatus('idle')}
+          className="px-6 py-3 rounded-2xl font-nunito font-bold text-white
+            bg-gradient-to-r from-rosa to-lilas shadow-md"
+        >
+          Voltar
+        </button>
+      </motion.div>
+    )
   }
 
   return (

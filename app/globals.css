@@ -81,6 +81,16 @@ body {
   100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes race-car {
+  0%   { transform: translateX(-80px); }
+  100% { transform: translateX(110vw); }
+}
+
+@keyframes race-road {
+  0%   { background-position: 0 0; }
+  100% { background-position: -40px 0; }
+}
+
 @keyframes shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }

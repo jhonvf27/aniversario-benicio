@@ -10,6 +10,7 @@ import { FESTA_CONFIG } from '@/lib/config'
 import { Countdown } from '@/components/Countdown'
 import { FloatingBalloons } from '@/components/FloatingBalloons'
 import { ConfettiOnMount } from '@/components/ConfettiEffect'
+import { McQueenCar } from '@/components/McQueenCar'
 
 // Estrelinhas decorativas aleatórias — geradas no cliente para evitar hidratação
 function StarField() {
@@ -168,6 +169,17 @@ export default function HomePage() {
           <span className="text-4xl animate-bounce-gentle">🏎️</span>
           <span className="font-bubblegum text-4xl sm:text-5xl md:text-7xl text-rosa">1 Aninho!</span>
           <span className="text-4xl animate-bounce-gentle" style={{ animationDelay: '0.3s' }}>⚡</span>
+        </motion.div>
+
+        {/* McQueen */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          custom={0.9}
+          className="w-64 sm:w-80 md:w-96 mx-auto mb-4"
+        >
+          <McQueenCar />
         </motion.div>
 
         {/* Seta de scroll */}

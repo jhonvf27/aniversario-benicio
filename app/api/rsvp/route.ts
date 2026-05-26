@@ -28,6 +28,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Telefone é obrigatório' }, { status: 400 })
   }
 
+  // Bloqueia confirmação duplicada pelo mesmo telefone
+  const { data: existente } = await supabase
+    .from('rsvp')
+    .select('id, nome')
+    .eq('telefone', telefone.trim())
+    .maybeSingle()
+
+  if (existente) {
+    return NextResponse.json({ error: 'duplicate', nome: existente.nome }, { status: 409 })
+  }
+
   const { data, error } = await supabase
     .from('rsvp')
     .insert({
